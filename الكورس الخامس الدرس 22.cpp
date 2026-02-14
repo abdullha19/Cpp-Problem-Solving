@@ -1,64 +1,78 @@
-﻿// الكورس الخامس الدرس 22.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-//Write a program to read N elements and store them in array then print all array elements and ask for a number to check, then print how many number a certain element repeated in that array.
-#include <iostream>
-#include <ctime>
-#include <cstdlib> 
+﻿#include <iostream>
 #include <string>
 
 using namespace std;
-enum Myarraysenum { Size = 100 };
+
+// يفضل استخدام الثابت هنا لتسهيل تغيير حجم المصفوفة لاحقاً
+const int Size = 100;
+
 int ReadPositiveNumber(string Message) {
     int Number = 0;
-    do {
+    do
+    {
         cout << Message << endl;
         cin >> Number;
-    } while (Number < 0);
+    } while (Number <= 0); // تعديل الشرط لضمان أن الرقم موجب تماماً (أكبر من صفر)
+
     return Number;
 }
-int Askuoserhohmanyaree(int from , int to) {
-    int Number = 0; do { cout << "Enter a number between " << from << " and " << to << endl; cin >> Number; } while (Number < from || Number > to); return Number;
 
-}
+void ReadArray(int arr[Size], int& arrLength) {
+    cout << "\nEnter number of elements:\n";
+    cin >> arrLength;
 
-int main()
-{
-    // Read number of elements (must be between 1 and Size)
-    int n = 0;
-    do {
-        cout << "Enter number of elements (1 to " << Size << "): ";
-        cin >> n;
-    } while (n <= 0 || n > Size);
+    // (Optional) Check to prevent buffer overflow
+    if (arrLength > Size) {
+        cout << "Limit is " << Size << ", setting length to " << Size << endl;
+        arrLength = Size;
+    }
 
-    int arr[Size] = {0};
-
-    // Read array elements
-    for (int i = 0; i < n; ++i) {
-        cout << "Enter element [" << i << "]: ";
+    cout << "\nEnter array elements: \n";
+    for (int i = 0; i < arrLength; i++)
+    {
+        cout << "Element [" << i + 1 << "] : ";
         cin >> arr[i];
     }
-
-    // Print all elements
-    cout << "Array elements: ";
-    for (int i = 0; i < n; ++i) {
-        if (i) cout << ", ";
-        cout << arr[i];
-    }
     cout << endl;
+}
 
-    // Ask for a number to check
-    int key;
-    cout << "Enter a number to check how many times it appears: ";
-    cin >> key;
+void PrintArray(int arr[Size], int arrLength)
+{
+    for (int i = 0; i < arrLength; i++)
+        cout << arr[i] << " ";
 
-    // Count occurrences
+    cout << "\n";
+}
+
+int TimesRepeated(int Number, int arr[Size], int arrLength)
+{
     int count = 0;
-    for (int i = 0; i < n; ++i) {
-        if (arr[i] == key) ++count;
+    for (int i = 0; i < arrLength; i++) // i < arrLength is cleaner than i <= arrLength - 1
+    {
+        if (Number == arr[i])
+        {
+            count++;
+        }
     }
+    return count;
+}
 
-    cout << key << " appears " << count << " time" << (count == 1 ? "" : "s") << " in the array." << endl;
+int main() {
+
+    int arr[Size];
+    int arrLength;
+    int NumberToCheck;
+
+    ReadArray(arr, arrLength);
+
+    NumberToCheck = ReadPositiveNumber("Enter the number you want to check: ");
+
+    cout << "\nOriginal array: ";
+    PrintArray(arr, arrLength);
+
+    cout << "\nNumber " << NumberToCheck;
+    cout << " is repeated ";
+    cout << TimesRepeated(NumberToCheck, arr, arrLength) << " time(s)\n";
 
     return 0;
 }
-
