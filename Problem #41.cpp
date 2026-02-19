@@ -1,72 +1,55 @@
 // Problem #41.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#include <iostream>   
+using namespace std;  
 
-#include <iostream>
-#include <string>
-#include <ctime>
-using namespace std;
-int ReadPositiveNumber(string Message) {
+void FillArray(int arr[100], int& arrLength)
+{
+    arrLength = 6;  
 
-	int Number = 0;
-	do
-	{
-		cout << "___________________________________________" << endl;
-		cout << Message << endl;
-		cout << "___________________________________________" << endl;
-		cin >> Number;
-
-	} while (Number <= 0 || Number > 100);
-	return Number;
+    arr[0] = 10;
+    arr[1] = 20;
+    arr[2] = 30;
+    arr[3] = 30;
+    arr[4] = 20;
+    arr[5] = 10;
 }
+
+
 void PrintArray(int arr[100], int arrLength)
 {
     for (int i = 0; i < arrLength; i++)
         cout << arr[i] << " ";
-    cout << "\n";
-}
-void FillArrayWith1toN(int arr[100], int &arrLength)
-{
-	for (int i = 0; i < arrLength; i++)
-		arr[i] = i + 1;
-}
-bool checkifitisPalindrome(int arr[100], int arrLength)
-{
-	bool isPalindrome = true;
-	for (int i = 0; i < arrLength ; i++)
-	{
-		if (arr[i] != arr[arrLength - 1 - i])
-		{
-			isPalindrome = false;
-			break;
-		}
-	}
-	if (isPalindrome)
-		cout << "The array is a palindrome." << endl;
-	else
-		cout << "The array is not a palindrome." << endl;
-	return isPalindrome;
+    cout << "\n"; 
 }
 
+
+bool IsPalindromeArray(int arr[100], int Length)
+{
+    for (int i = 0; i < Length; i++)
+    {
+        if (arr[i] != arr[Length - i - 1])
+        {
+            return false;  
+        }
+    }
+
+    return true;
+}
 int main()
 {
-	int arr[100], arrLength;
-    // Read the desired array length first
-	arrLength = ReadPositiveNumber("Please enter the length of the array (1-100):");
-	cout << "This program checks if the entered array is a palindrome or not." << endl;
-	cout << "Note: A palindrome is a sequence that reads the same backward as forward." << endl;
-	cout << "Please enter " << arrLength << " numbers to fill the array:" << endl;
-	cout << "___________________________________________" << endl;
+    int arr[100];  
+    int Length = 0; 
 
-	// Read array elements from the user
-	for (int i = 0; i < arrLength; i++)
-	{
-		cin >> arr[i];
-	}
+    FillArray(arr, Length);
 
-	// Show the array and check for palindrome
-	PrintArray(arr, arrLength);
-	checkifitisPalindrome(arr, arrLength);
+    cout << "\nArray Elements:\n";
+    PrintArray(arr, Length);
 
-	return 0;
+    if (IsPalindromeArray(arr, Length))
+        cout << "\nYes array is Palindrome\n";
+    else
+        cout << "\nNO array is NOT Palindrome\n";
+
+    return 0;  
 }
-
